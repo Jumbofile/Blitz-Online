@@ -1,0 +1,33 @@
+[gd_scene format=2]
+
+[node name="Lobby" type="Control"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+
+[node name="ItemList" type="ItemList" parent="."]
+margin_left = 634.0
+margin_top = 14.0
+margin_right = 1002.0
+margin_bottom = 510.0
+
+[node name="Button" type="Button" parent="."]
+margin_left = 388.649
+margin_top = 497.081
+margin_right = 608.649
+margin_bottom = 581.081
+text = "Ready"
+
+[node name="Button2" type="Button" parent="."]
+margin_left = 15.2434
+margin_top = 536.477
+margin_right = 122.243
+margin_bottom = 585.477
+text = "Back"
+
+[node name="RichTextLabel" type="RichTextLabel" parent="."]
+margin_left = 10.883
+margin_top = 12.2434
+margin_right = 292.883
+margin_bottom = 120.243
+size_flags_stretch_ratio = 0.0
+text = "GameType"
