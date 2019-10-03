@@ -1,6 +1,7 @@
 extends Node
 
 var connection = null
+var lobbies
 
 func _ready():
 		print("Start client TCP")
@@ -17,9 +18,10 @@ func _process(delta):
 	if bytes > 0:
 		#split packet into manageable info
 		var data = connection.get_string(bytes).split(",")
-		
+		print(data)
 		#Header is the packet id number
 		var header = int(data[0])
+		print(header)
 		match header:
 			1:#login return packet!
 				if data[1] == "true":
@@ -27,6 +29,17 @@ func _process(delta):
 					get_node("Menu").show()
 				else:
 					handle_error(2)
+			2:#lobby create packet
+				print("fuck")
+			3:#update list packet
+				print(" yeah")
+				for i in range(1, data.size()):
+					if lobbies.has(data[i]) == false:
+						var temp = [data[i]]
+						lobbies = lobbies + temp
+						get_node("Gameselect/lobbies").add_item(data[i])
+				for i in lobbies:
+					print(i)
 
 func send_packet(packetType, data):
 	if connection.get_status() == connection.STATUS_CONNECTED:
@@ -34,6 +47,9 @@ func send_packet(packetType, data):
 		match packetType:
 			1:
 				var dataPacket = (str(packetType) +","+data[0]+","+data[1]+"\n").to_ascii()
+				connection.put_data(dataPacket)
+			2:
+				var dataPacket = (str(packetType)+","+data[0]+","+str(data[1])+","+data[2]+"\n").to_ascii()
 				connection.put_data(dataPacket)
 	else:
 		handle_error(1)

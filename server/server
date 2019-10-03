@@ -1,4 +1,4 @@
-Sep 21, 2019 8:15:22 PM LoginServer run
+Sep 21, 2019 8:15:22 PM MenuServer run
 INFO: greg logged in.
-Sep 21, 2019 8:15:24 PM LoginServer run
+Sep 21, 2019 8:15:24 PM MenuServer run
 INFO: Disconnected:Socket[addr=/127.0.0.1,port=54804,localport=6666]
