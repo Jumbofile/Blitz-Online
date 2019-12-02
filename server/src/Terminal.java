@@ -9,14 +9,15 @@ public class Terminal {
         JFrame frame = new JFrame("Tank Server");
         JPanel panel = new JPanel();
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setSize(800, 420);
+        frame.setSize(800, 445);
         frame.setResizable(false);
         consoleWin.setEditable(false);
         JScrollPane scroll = new JScrollPane (consoleWin);
         consoleWin.setFont(new Font("Consolas", Font.PLAIN, 14));  // make a new font object);
         consoleWin.setForeground(Color.lightGray);
         consoleWin.setBackground(Color.BLACK);
-        scroll.setBounds(-1,0,800,420);
+        consoleWin.setSize(800, 420);
+        scroll.setBounds(-1,0,797,420);
         consoleWin.setLineWrap(true);
         DefaultCaret caret = (DefaultCaret)consoleWin.getCaret();
         caret.setUpdatePolicy(DefaultCaret.ALWAYS_UPDATE);

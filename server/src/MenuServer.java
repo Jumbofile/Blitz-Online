@@ -13,6 +13,7 @@ public class MenuServer implements Runnable {
         this.socket = socket;
         this.console = console;
         this.lists = lists;
+        lists.lobbies.add(new Lobby("Game Name", 1, "Greg"));
     }
 
     @Override
@@ -21,10 +22,17 @@ public class MenuServer implements Runnable {
         console.append("Connected: " + socket + "\n");
         try {
             BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
-            BufferedWriter out  = new BufferedWriter(new OutputStreamWriter(socket.getOutputStream()));
-            String[] data;
+
+            String[] data = null;
+
             while (socket.isConnected()) {
-                data = in.readLine().split(",");
+                String incoming = in.readLine();
+                console.append(incoming + "\n");
+                try {
+                    data = incoming.split(",");
+                }catch(NullPointerException e){
+                    //eh
+                }
 
                 if (data != null) {
                     switch(Integer.parseInt(data[0])){
@@ -32,9 +40,8 @@ public class MenuServer implements Runnable {
                             //login
                             console.append(data[1] + " logged in." + "\n");
                             //log.logger.info(data[1] + " logged in.");
-                            out.write("1,true");
-                            out.flush();
-                            sendLobbyList(out);
+                            sendPacket("1,true");
+                            sendLobbyList();
                             break;
                         case 2:
                             //creating lobby
@@ -46,11 +53,13 @@ public class MenuServer implements Runnable {
                             for(int i = 1; i < playerList.size(); i++){
                                 playersInLobby = playersInLobby + "," + playerList.get(i);
                             }
-                            out.write("2,"+newLobby.name+","+newLobby.gameMode+","+playersInLobby);
-                            out.flush();
-                            sendLobbyList(out);
+                            console.append("Lobby: " + newLobby.name+","+newLobby.gameMode+","+playersInLobby);
+                            sendPacket("2,"+newLobby.name+","+newLobby.gameMode+","+playersInLobby);
+                            sendLobbyList();
                             break;
                     }
+                }else{
+                    console.append(("Empty packet.\n"));
                 }
             }
         } catch (Exception e) {
@@ -62,18 +71,26 @@ public class MenuServer implements Runnable {
         }
     }
 
-    public void sendLobbyList(BufferedWriter out) throws IOException{
+    public void sendLobbyList() throws IOException{
+        BufferedWriter out  = new BufferedWriter(new OutputStreamWriter(socket.getOutputStream()));
         try {
-            String lobbyList = lists.lobbies.get(0).name;
-            for (int i = 1; i < lists.lobbies.size(); i++) {
+            String lobbyList = new String();
+            console.append("LOBBIES: " + lists.lobbies.size() + "\n");
+            for (int i = 0; i < lists.lobbies.size(); i++) {
                 lobbyList = lobbyList  + "," + lists.lobbies.get(i).name;
                 console.append(lists.lobbies.get(i).name + "\n");
             }
-            out.write("3," + lobbyList);
-            out.flush();
+            sendPacket("3," + lobbyList);
         }catch(IndexOutOfBoundsException e){
             //do nothing because the lobby list is empty
+            console.append("Empty Lobby." + "\n");
             e.printStackTrace();
         }
+    }
+
+    public void sendPacket(String data) throws IOException {
+        BufferedWriter out  = new BufferedWriter(new OutputStreamWriter(socket.getOutputStream()));
+        out.write(data + "\0");
+        out.flush();
     }
 }
