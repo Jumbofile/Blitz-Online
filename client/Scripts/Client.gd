@@ -2,6 +2,7 @@ extends Node
 
 var connection = null
 var lobbies
+var wrapped_client
 
 func _ready():
 		print("Start client TCP")
@@ -11,15 +12,26 @@ func _ready():
 		connection.connect_to_host("127.0.0.1", 6666)
 
 func _process(delta):
+	
+	if connection.is_connected_to_host():
+		wrapped_client = PacketPeerStream.new()
+		wrapped_client.set_stream_peer(connection)
 	#looks for a packer
 	var bytes = connection.get_available_bytes()
 	
 	#if a packet exist lets figure out what type it is
 	if bytes > 0:
 		#split packet into manageable info
-		var data = connection.get_string(bytes).split(",")
+		var inComingData = connection.get_string(bytes);
+		#var inComingData = connection.get_peer(1).get_packet()
+		print(inComingData)
+		var data = inComingData.split(",")
 		print(data)
-		#Header is the packet id number
+		
+		recv_packet(data)
+
+func recv_packet(data):
+	#Header is the packet id number
 		var header = int(data[0])
 		print(header)
 		match header:
@@ -32,25 +44,25 @@ func _process(delta):
 			2:#lobby create packet
 				print("fuck")
 			3:#update list packet
-				print(" yeah")
+				print("yeah")
+				#print(data)
+				lobbies = "";
 				for i in range(1, data.size()):
-					if lobbies.has(data[i]) == false:
-						var temp = [data[i]]
-						lobbies = lobbies + temp
+						print(data[i])
 						get_node("Gameselect/lobbies").add_item(data[i])
-				for i in lobbies:
-					print(i)
+				#for i in lobbies:
+				#	print(i)
 
 func send_packet(packetType, data):
 	if connection.get_status() == connection.STATUS_CONNECTED:
 		#Login packet
+		var dataPacket = ""
 		match packetType:
 			1:
-				var dataPacket = (str(packetType) +","+data[0]+","+data[1]+"\n").to_ascii()
-				connection.put_data(dataPacket)
+				dataPacket = (str(packetType) +","+data[0]+","+data[1]+"\n").to_ascii()
 			2:
-				var dataPacket = (str(packetType)+","+data[0]+","+str(data[1])+","+data[2]+"\n").to_ascii()
-				connection.put_data(dataPacket)
+				dataPacket = (str(packetType)+","+data[0]+","+str(data[1])+","+data[2]+"\n").to_ascii()
+		connection.put_data(dataPacket)
 	else:
 		handle_error(1)
 

@@ -82,5 +82,6 @@ margin_top = 196.333
 margin_right = 574.501
 margin_bottom = 224.333
 text = "Create"
+[connection signal="pressed" from="back" to="." method="_on_back_pressed"]
 [connection signal="pressed" from="create" to="." method="_on_create_pressed"]
 [connection signal="pressed" from="CreateDialog/Button" to="." method="_on_Button_pressed"]

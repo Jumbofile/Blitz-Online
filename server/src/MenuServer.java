@@ -1,4 +1,5 @@
 import Types.Lobby;
+import com.sun.xml.internal.ws.util.StringUtils;
 
 import javax.swing.*;
 import java.io.*;
@@ -33,7 +34,6 @@ public class MenuServer implements Runnable {
                 }catch(NullPointerException e){
                     //eh
                 }
-
                 if (data != null) {
                     switch(Integer.parseInt(data[0])){
                         case 1:
@@ -42,6 +42,7 @@ public class MenuServer implements Runnable {
                             //log.logger.info(data[1] + " logged in.");
                             sendPacket("1,true");
                             sendLobbyList();
+                            console.append("Lobby List sent.\n");
                             break;
                         case 2:
                             //creating lobby
@@ -72,16 +73,21 @@ public class MenuServer implements Runnable {
     }
 
     public void sendLobbyList() throws IOException{
-        BufferedWriter out  = new BufferedWriter(new OutputStreamWriter(socket.getOutputStream()));
+
         try {
+            Thread.sleep(50);
             String lobbyList = new String();
             console.append("LOBBIES: " + lists.lobbies.size() + "\n");
             for (int i = 0; i < lists.lobbies.size(); i++) {
-                lobbyList = lobbyList  + "," + lists.lobbies.get(i).name;
+                lobbyList = lobbyList + lists.lobbies.get(i).name + "," ;
                 console.append(lists.lobbies.get(i).name + "\n");
             }
+            console.append("3," + lobbyList + "\n");
+            if ((lobbyList != null) && (lobbyList.length() > 0)) {
+                lobbyList = lobbyList.substring(0, lobbyList.length() - 1);
+            }
             sendPacket("3," + lobbyList);
-        }catch(IndexOutOfBoundsException e){
+        }catch(IndexOutOfBoundsException | InterruptedException e){
             //do nothing because the lobby list is empty
             console.append("Empty Lobby." + "\n");
             e.printStackTrace();
@@ -89,6 +95,7 @@ public class MenuServer implements Runnable {
     }
 
     public void sendPacket(String data) throws IOException {
+
         BufferedWriter out  = new BufferedWriter(new OutputStreamWriter(socket.getOutputStream()));
         out.write(data + "\0");
         out.flush();
