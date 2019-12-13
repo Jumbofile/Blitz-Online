@@ -44,25 +44,25 @@ func recv_packet(data):
 			2:#lobby create packet
 				print("fuck")
 			3:#update list packet
-				print("yeah")
-				#print(data)
+				print(data)
 				lobbies = "";
-				for i in range(1, data.size()):
-						print(data[i])
-						get_node("Gameselect/lobbies").add_item(data[i])
-				#for i in lobbies:
-				#	print(i)
+				get_node("Gameselect").populate_list(data)
 
 func send_packet(packetType, data):
+	#is the client connnected
 	if connection.get_status() == connection.STATUS_CONNECTED:
 		#Login packet
 		var dataPacket = ""
+		
+		#packet switch statement
 		match packetType:
-			1:
-				dataPacket = (str(packetType) +","+data[0]+","+data[1]+"\n").to_ascii()
-			2:
-				dataPacket = (str(packetType)+","+data[0]+","+str(data[1])+","+data[2]+"\n").to_ascii()
-		connection.put_data(dataPacket)
+			0:#disconnect (0)
+				dataPacket = (str(packetType))
+			1:#login.... (1, username, password)
+				dataPacket = (str(packetType) +","+data[0]+","+data[1])
+			2:#new lobby.... (2, name, idk, idk)
+				dataPacket = (str(packetType)+","+data[0]+","+str(data[1])+","+data[2])
+		connection.put_data((dataPacket + "\n").to_ascii())
 	else:
 		handle_error(1)
 

@@ -1,4 +1,7 @@
-import Types.Lobby;
+package Blitz;
+
+import Blitz.Types.Lobby;
+import Blitz.Types.Player;
 
 import java.util.ArrayList;
 

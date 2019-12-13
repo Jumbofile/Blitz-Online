@@ -1,11 +1,15 @@
 [gd_scene load_steps=6 format=2]
 
 [ext_resource path="res://Scripts/select.gd" type="Script" id=1]
-[ext_resource path="res://Fonts/Rubik-Regular.ttf" type="DynamicFontData" id=2]
 
-[sub_resource type="DynamicFont" id=1]
-size = 20
-font_data = ExtResource( 2 )
+[sub_resource type="DynamicFontData" id=4]
+font_path = "res://Fonts/Rubik-Regular.ttf"
+
+[sub_resource type="DynamicFont" id=5]
+size = 24
+outline_size = 1
+outline_color = Color( 0, 0, 0, 1 )
+font_data = SubResource( 4 )
 
 [sub_resource type="Gradient" id=2]
 colors = PoolColorArray( 0.210938, 0.210938, 0.210938, 1, 0.211765, 0.211765, 0.211765, 1 )
@@ -51,11 +55,11 @@ margin_bottom = 321.236
 text = "Create"
 
 [node name="gametype" type="RichTextLabel" parent="."]
-margin_left = 34.9474
-margin_top = 20.1053
-margin_right = 257.947
-margin_bottom = 60.1053
-custom_fonts/normal_font = SubResource( 1 )
+margin_left = 29.0
+margin_top = 35.0
+margin_right = 251.0
+margin_bottom = 75.0
+custom_fonts/bold_font = SubResource( 5 )
 bbcode_enabled = true
 
 [node name="CreateDialog" type="Control" parent="."]
@@ -76,12 +80,20 @@ margin_top = 155.002
 margin_right = 630.813
 margin_bottom = 179.002
 
-[node name="Button" type="Button" parent="CreateDialog"]
-margin_left = 496.501
+[node name="createLobby" type="Button" parent="CreateDialog"]
+margin_left = 437.035
 margin_top = 196.333
-margin_right = 574.501
+margin_right = 515.035
 margin_bottom = 224.333
 text = "Create"
+
+[node name="cancelLobby" type="Button" parent="CreateDialog"]
+margin_left = 551.933
+margin_top = 195.764
+margin_right = 629.933
+margin_bottom = 223.764
+text = "Cancel"
 [connection signal="pressed" from="back" to="." method="_on_back_pressed"]
 [connection signal="pressed" from="create" to="." method="_on_create_pressed"]
-[connection signal="pressed" from="CreateDialog/Button" to="." method="_on_Button_pressed"]
+[connection signal="pressed" from="CreateDialog/createLobby" to="." method="_on_createLobby_pressed"]
+[connection signal="pressed" from="CreateDialog/cancelLobby" to="." method="_on_cancelLobby_pressed"]

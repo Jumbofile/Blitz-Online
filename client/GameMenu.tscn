@@ -15,4 +15,12 @@ margin_top = 12.1063
 margin_right = 229.061
 margin_bottom = 114.106
 text = "Play"
+
+[node name="logout" type="Button" parent="."]
+margin_left = 14.3907
+margin_top = 486.438
+margin_right = 227.391
+margin_bottom = 588.438
+text = "Disconnect"
 [connection signal="pressed" from="pvp" to="." method="_on_pvp_pressed"]
+[connection signal="pressed" from="logout" to="." method="_on_logout_pressed"]

@@ -1,3 +1,5 @@
+package Blitz.Database;
+
 import java.io.IOException;
 import java.util.logging.*;
 

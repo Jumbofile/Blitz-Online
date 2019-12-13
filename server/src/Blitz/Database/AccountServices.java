@@ -1,3 +1,5 @@
+package Blitz.Database;
+
 public class AccountServices {
     /***
      * Everything that relates to account options!

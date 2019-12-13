@@ -63,7 +63,7 @@
   </component>
   <component name="RunManager">
     <configuration name="LaunchServer" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
-      <option name="MAIN_CLASS_NAME" value="LaunchServer" />
+      <option name="MAIN_CLASS_NAME" value="Blitz.Main.LaunchServer" />
       <module name="server" />
       <method v="2">
         <option name="Make" enabled="true" />
@@ -116,7 +116,8 @@
       <workItem from="1575303571178" duration="4430000" />
       <workItem from="1575405751621" duration="5040000" />
       <workItem from="1575512140857" duration="87000" />
-      <workItem from="1576205672486" duration="2343000" />
+      <workItem from="1576205672486" duration="5761000" />
+      <workItem from="1576212457418" duration="360000" />
     </task>
     <servers />
   </component>

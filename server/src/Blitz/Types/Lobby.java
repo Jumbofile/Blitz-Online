@@ -1,4 +1,4 @@
-package Types;
+package Blitz.Types;
 
 import java.util.ArrayList;
 
@@ -13,7 +13,7 @@ public class Lobby {
         this.gameMode = gameMode;
         this.owner = owner;
 
-        //change this to a list of type Player
+        //change this to a list of type Blitz.Types.Player
         players = new ArrayList<String>();
         addPlayer(owner);
     }
