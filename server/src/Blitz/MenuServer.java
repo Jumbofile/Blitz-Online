@@ -1,5 +1,6 @@
 package Blitz;
 
+import Blitz.Types.Account;
 import Blitz.Types.Lobby;
 
 import javax.swing.*;
@@ -11,6 +12,7 @@ public class MenuServer implements Runnable {
     private Socket socket;
     private JTextArea console;
     private Lists lists;
+    private Account account;
     public MenuServer(Socket socket, Lists lists, JTextArea console) {
         this.socket = socket;
         this.console = console;
@@ -55,20 +57,21 @@ public class MenuServer implements Runnable {
     public void receivePackets(String[] data) throws IOException{
         if (data != null) {
             switch(Integer.parseInt(data[0])){
-                case 0:
+                case 0: //disconnect packet
                     socket.close();
                     console.append("Client Disconnected");
+                    lists.onlinePlayers.remove(account);
                     break;
-                case 1:
-                    //login
+                case 1: //Login packet
                     console.append(data[1] + " logged in." + "\n");
                     //log.logger.info(data[1] + " logged in.");
+                    account = new Account(this.socket);
+                    lists.onlinePlayers.add(account);
                     sendPacket("1,true");
                     sendLobbyList();
                     console.append("Lobby List sent.\n");
                     break;
-                case 2:
-                    //creating lobby
+                case 2: //creating lobby packet
                     console.append("Creating Blitz.Types.Lobby\n");
                     Lobby newLobby = new Lobby(data[1], Integer.parseInt(data[2]), data[3]);
                     lists.lobbies.add(newLobby);

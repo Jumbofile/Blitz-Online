@@ -1,5 +1,8 @@
 package Blitz.Types;
 
+import Blitz.GameServer;
+import Blitz.Lists;
+
 import java.util.ArrayList;
 
 public class Lobby {
@@ -16,6 +19,7 @@ public class Lobby {
         //change this to a list of type Blitz.Types.Player
         players = new ArrayList<String>();
         addPlayer(owner);
+
     }
 
     public ArrayList<String> getPlayers(){
