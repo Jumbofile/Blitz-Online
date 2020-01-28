@@ -73,17 +73,29 @@ public class MenuServer implements Runnable {
                     break;
                 case 2: //creating lobby packet
                     console.append("Creating Blitz.Types.Lobby\n");
+
+                    //make a new lobby and add it to the list of lobbies
                     Lobby newLobby = new Lobby(data[1], Integer.parseInt(data[2]), data[3]);
                     lists.lobbies.add(newLobby);
+
+                    //add the players to the lobby type
                     ArrayList<String> playerList = newLobby.getPlayers();
                     String playersInLobby = playerList.get(0);
                     for(int i = 1; i < playerList.size(); i++){
                         playersInLobby = playersInLobby + "," + playerList.get(i);
                     }
+
+                    //get the lobby id in the list
+                    int lobbyId = lists.lobbies.indexOf(newLobby);
+
                     console.append("Lobby: " + newLobby.name+","+newLobby.gameMode+","+playersInLobby + "\n");
-                    sendPacket("2,"+newLobby.name+","+newLobby.gameMode+","+playersInLobby);
+                    sendPacket("2,"+lobbyId+","+newLobby.name+","+newLobby.gameMode+","+playersInLobby);
                     sendLobbyList();
                     break;
+                case 3: //send player to the lobby
+                    int lobby = Integer.parseInt(data[1]);
+                    System.out.println("Lobby ID: " + lobby);
+
             }
         }else{
             console.append(("Empty packet.\n"));
@@ -112,7 +124,7 @@ public class MenuServer implements Runnable {
             String lobbyList = new String();
             console.append("LOBBIES: " + lists.lobbies.size() + "\n");
             for (int i = 0; i < lists.lobbies.size(); i++) {
-                lobbyList = lobbyList + lists.lobbies.get(i).name + "," ;
+                lobbyList = lobbyList + lists.lobbies.get(i).name +"/"+ i + "," ;
                 //console.append(lists.lobbies.get(i).name + "\n");
             }
             //console.append("3," + lobbyList + "\n");

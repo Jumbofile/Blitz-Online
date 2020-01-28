@@ -1,0 +1,65 @@
+[gd_scene load_steps=6 format=2]
+
+[ext_resource path="res://Scripts/Menu/login.gd" type="Script" id=1]
+[ext_resource path="res://Images/Menus/loginBackground.png" type="Texture" id=2]
+[ext_resource path="res://Images/Menus/logo.png" type="Texture" id=3]
+
+[sub_resource type="DynamicFontData" id=1]
+font_path = "res://Fonts/Rubik-Regular.ttf"
+
+[sub_resource type="DynamicFont" id=2]
+size = 20
+outline_size = 1
+outline_color = Color( 0, 0, 0, 1 )
+font_data = SubResource( 1 )
+
+[node name="Login" type="Control"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+script = ExtResource( 1 )
+
+[node name="Sprite" type="Sprite" parent="."]
+visible = false
+position = Vector2( 514.802, 197.374 )
+scale = Vector2( 1.03297, 1.023 )
+z_index = -1
+texture = ExtResource( 2 )
+
+[node name="LoginButton" type="Button" parent="."]
+margin_left = 457.8
+margin_top = 341.449
+margin_right = 550.8
+margin_bottom = 375.449
+text = "Login"
+
+[node name="UsernameBox" type="LineEdit" parent="."]
+margin_left = 381.484
+margin_top = 255.481
+margin_right = 641.484
+margin_bottom = 279.481
+hint_tooltip = "Enter your Username."
+placeholder_text = "Username"
+
+[node name="PasswordBox" type="LineEdit" parent="."]
+margin_left = 381.675
+margin_top = 299.421
+margin_right = 641.675
+margin_bottom = 323.421
+hint_tooltip = "Enter your Password."
+secret = true
+placeholder_text = "Password"
+
+[node name="ErrorLabel" type="RichTextLabel" parent="."]
+margin_left = 0.171997
+margin_top = 216.85
+margin_right = 1025.17
+margin_bottom = 252.85
+custom_fonts/normal_font = SubResource( 2 )
+custom_colors/default_color = Color( 1, 0, 0, 1 )
+bbcode_enabled = true
+
+[node name="logo" type="Sprite" parent="."]
+position = Vector2( 511.258, 131.017 )
+scale = Vector2( 0.3, 0.3 )
+texture = ExtResource( 3 )
+[connection signal="pressed" from="LoginButton" to="." method="_on_LoginButton_pressed"]

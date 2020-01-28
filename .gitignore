@@ -38,7 +38,7 @@ export_presets.cfg
 # Gradle
 .idea/**/gradle.xml
 .idea/**/libraries
-
+/test/
 # Gradle and Maven with auto-import
 # When using Gradle or Maven with auto-import, you should exclude module files,
 # since they will be recreated, and may cause churn.  Uncomment if using
@@ -126,3 +126,14 @@ fabric.properties
 hs_err_pid*
 
 # End of https://www.gitignore.io/api/java,godot,intellij
+# Godot-specific ignores
+.import/
+export.cfg
+export_presets.cfg
+
+# Imported translations (automatically generated from CSV files)
+*.translation
+
+# Mono-specific ignores
+.mono/
+data_*/

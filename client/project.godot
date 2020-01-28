@@ -16,7 +16,7 @@ _global_script_class_icons={
 [application]
 
 config/name="Gameclient"
-run/main_scene="res://Client.tscn"
+run/main_scene="res://Scenes/Client.tscn"
 boot_splash/image="res://Images/Menus/splashscreen.png"
 config/icon="res://icon.png"
 

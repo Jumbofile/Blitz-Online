@@ -1,0 +1,18 @@
+[remap]
+
+importer="wavefront_obj"
+type="Mesh"
+path="res://.import/cartoon tank.obj-3bd5c5c77f4c939bb2b9e1551d626fbf.mesh"
+
+[deps]
+
+files=[ "res://.import/cartoon tank.obj-3bd5c5c77f4c939bb2b9e1551d626fbf.mesh" ]
+
+source_file="res://Models/tank test/cartoon tank.obj"
+dest_files=[ "res://.import/cartoon tank.obj-3bd5c5c77f4c939bb2b9e1551d626fbf.mesh", "res://.import/cartoon tank.obj-3bd5c5c77f4c939bb2b9e1551d626fbf.mesh" ]
+
+[params]
+
+generate_tangents=true
+scale_mesh=Vector3( 1, 1, 1 )
+optimize_mesh=true

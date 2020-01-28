@@ -1,0 +1,18 @@
+[gd_resource type="Environment" load_steps=3 format=2]
+
+[ext_resource path="res://Images/sky2.jpg" type="Texture" id=1]
+
+[sub_resource type="PanoramaSky" id=1]
+radiance_size = 3
+panorama = ExtResource( 1 )
+
+[resource]
+background_mode = 2
+background_sky = SubResource( 1 )
+background_sky_custom_fov = 103.1
+background_sky_orientation = Basis( 0.643, 0, 0.766, 0, 0.881, 0, -0.766, 0, 0.643 )
+ambient_light_color = Color( 1, 1, 1, 1 )
+fog_color = Color( 0.427451, 0.788235, 0.847059, 1 )
+fog_depth_begin = 80.0
+fog_depth_end = 190.2
+fog_depth_curve = 0.378929

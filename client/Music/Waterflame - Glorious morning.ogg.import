@@ -1,0 +1,15 @@
+[remap]
+
+importer="ogg_vorbis"
+type="AudioStreamOGGVorbis"
+path="res://.import/Waterflame - Glorious morning.ogg-425543de30d2be32a10ce6a25efa9a2d.oggstr"
+
+[deps]
+
+source_file="res://Music/Waterflame - Glorious morning.ogg"
+dest_files=[ "res://.import/Waterflame - Glorious morning.ogg-425543de30d2be32a10ce6a25efa9a2d.oggstr" ]
+
+[params]
+
+loop=true
+loop_offset=0

@@ -28,8 +28,12 @@ func _process(delta):
 		var data = inComingData.split(",")
 		print(data)
 		
+		#Parse the packet
 		recv_packet(data)
 
+#
+# RECIEVE PACKETS
+#
 func recv_packet(data):
 	#Header is the packet id number
 		var header = int(data[0])
@@ -48,6 +52,9 @@ func recv_packet(data):
 				lobbies = "";
 				get_node("Gameselect").populate_list(data)
 
+#
+# SEND PACKETS
+#
 func send_packet(packetType, data):
 	#is the client connnected
 	if connection.get_status() == connection.STATUS_CONNECTED:
@@ -60,8 +67,10 @@ func send_packet(packetType, data):
 				dataPacket = (str(packetType))
 			1:#login.... (1, username, password)
 				dataPacket = (str(packetType) +","+data[0]+","+data[1])
-			2:#new lobby.... (2, name, idk, idk)
+			2:#new lobby.... (2, lobby id, name, gamemode, owner)
 				dataPacket = (str(packetType)+","+data[0]+","+str(data[1])+","+data[2])
+			3:#join lobby.... (3, lobby id, player name)
+				dataPacket = (str(packetType)+","+data[0])
 		connection.put_data((dataPacket + "\n").to_ascii())
 	else:
 		handle_error(1)
