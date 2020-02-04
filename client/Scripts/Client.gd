@@ -16,6 +16,9 @@ func _process(delta):
 	if connection.is_connected_to_host():
 		wrapped_client = PacketPeerStream.new()
 		wrapped_client.set_stream_peer(connection)
+	else:
+		connection = StreamPeerTCP.new()
+		connection.connect_to_host("127.0.0.1", 6666)
 	#looks for a packer
 	var bytes = connection.get_available_bytes()
 	
@@ -37,7 +40,7 @@ func _process(delta):
 func recv_packet(data):
 	#Header is the packet id number
 		var header = int(data[0])
-		print(header)
+		print(data)
 		match header:
 			1:#login return packet!
 				if data[1] == "true":
@@ -45,8 +48,11 @@ func recv_packet(data):
 					get_node("Menu").show()
 				else:
 					handle_error(2)
-			2:#lobby create packet
-				print("fuck")
+			2:#lobby goto
+				#change to lobby scene and populate the scene
+				get_node("Gameselect").hide()
+				get_node("Lobby").show()
+				get_node("Lobby").setLobbyList(data[4])
 			3:#update list packet
 				print(data)
 				lobbies = "";
@@ -60,7 +66,7 @@ func send_packet(packetType, data):
 	if connection.get_status() == connection.STATUS_CONNECTED:
 		#Login packet
 		var dataPacket = ""
-		
+
 		#packet switch statement
 		match packetType:
 			0:#disconnect (0)
@@ -70,7 +76,7 @@ func send_packet(packetType, data):
 			2:#new lobby.... (2, lobby id, name, gamemode, owner)
 				dataPacket = (str(packetType)+","+data[0]+","+str(data[1])+","+data[2])
 			3:#join lobby.... (3, lobby id, player name)
-				dataPacket = (str(packetType)+","+data[0])
+				dataPacket = (str(packetType)+","+str(data[0]))
 		connection.put_data((dataPacket + "\n").to_ascii())
 	else:
 		handle_error(1)

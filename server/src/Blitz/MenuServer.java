@@ -58,6 +58,7 @@ public class MenuServer implements Runnable {
         if (data != null) {
             switch(Integer.parseInt(data[0])){
                 case 0: //disconnect packet
+                    System.out.println("CLIENT DISCONNECT REQUESTED");
                     socket.close();
                     console.append("Client Disconnected");
                     lists.onlinePlayers.remove(account);
@@ -66,6 +67,7 @@ public class MenuServer implements Runnable {
                     console.append(data[1] + " logged in." + "\n");
                     //log.logger.info(data[1] + " logged in.");
                     account = new Account(this.socket);
+                    account.setAccountName(data[1]);
                     lists.onlinePlayers.add(account);
                     sendPacket("1,true");
                     sendLobbyList();
@@ -75,30 +77,47 @@ public class MenuServer implements Runnable {
                     console.append("Creating Blitz.Types.Lobby\n");
 
                     //make a new lobby and add it to the list of lobbies
-                    Lobby newLobby = new Lobby(data[1], Integer.parseInt(data[2]), data[3]);
+                    Lobby newLobby = new Lobby(data[1], Integer.parseInt(data[2]), account);
                     lists.lobbies.add(newLobby);
 
                     //add the players to the lobby type
-                    ArrayList<String> playerList = newLobby.getPlayers();
-                    String playersInLobby = playerList.get(0);
+                    ArrayList<Account> playerList = newLobby.getPlayers();
+                    String playersInLobby = playerList.get(0).getAccountName();
                     for(int i = 1; i < playerList.size(); i++){
-                        playersInLobby = playersInLobby + "," + playerList.get(i);
+                        playersInLobby = playersInLobby + "~" + playerList.get(i).getAccountName();
                     }
 
                     //get the lobby id in the list
                     int lobbyId = lists.lobbies.indexOf(newLobby);
-
+                    console.append("Playerse: " + playersInLobby);
                     console.append("Lobby: " + newLobby.name+","+newLobby.gameMode+","+playersInLobby + "\n");
                     sendPacket("2,"+lobbyId+","+newLobby.name+","+newLobby.gameMode+","+playersInLobby);
                     sendLobbyList();
                     break;
                 case 3: //send player to the lobby
-                    int lobby = Integer.parseInt(data[1]);
-                    System.out.println("Lobby ID: " + lobby);
+                    //int lobby = Integer.parseInt(data[1].split("/")[1]);
+                    String[] lobbyString = (data[1].split("/"));
+                    int lobbyNum = Integer.parseInt(lobbyString[1]);
+                    System.out.println("Lobby ID: " + lobbyNum);
 
+                    //get the lobby
+                    Lobby lobby = lists.lobbies.get(lobbyNum);
+
+                    //add player to the lobby
+                    lobby.addPlayer(account);
+                    //get the player list and make a string
+                    playersInLobby = lobby.getPlayers().get(0).getAccountName();
+                    for(int i = 1; i < lobby.getPlayers().size(); i++){
+                        playersInLobby = playersInLobby + "~" + lobby.getPlayers().get(i).getAccountName();
+                    }
+                    console.append("Players: " + playersInLobby);
+                    sendPacket("2,"+lobbyNum+","+lobby.name+","+lobby.gameMode+","+playersInLobby);
+                    //get lobby by id
+                    //add player to lobby and send command to move to lobby
+                    break;
             }
         }else{
-            console.append(("Empty packet.\n"));
+            //console.append(("Empty packet.\n"));
         }
     }
 
