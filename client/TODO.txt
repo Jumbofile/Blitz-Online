@@ -1,0 +1,13 @@
+TODO:
+-double click to join lobby
+-back button removes from lobby
+-disconnect removes from lobby
+-check for duplicates in lobby
+-auto update Lobby Page
+-auto update Lobby Select page
+-GAME PLAY!
+
+
+
+BUGS:
+-null spam when disconnect (hard to reproduce)

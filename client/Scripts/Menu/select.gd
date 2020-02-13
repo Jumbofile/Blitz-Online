@@ -1,12 +1,27 @@
 extends Node
 var lobbyList
 var selectedItem
+
+#list updating
+var time_passed = 0
+var calls_per_sec = 1
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	get_node("gametype").set_bbcode("[center][b]Play Blitz-Online[/b][/center]")
 	lobbyList = get_node("lobbies")
-	
 
+func _process(delta):
+	if get_node("../Gameselect").visible == true:
+		#update lobby packet
+		time_passed += delta
+		
+		if time_passed >= 1:
+			updateGameSelect()
+			time_passed -= 1 
+
+func updateGameSelect():
+	get_node("..").send_packet(6, null)
+	
 func populate_list(data):
 	lobbyList.clear()
 	for i in range(1, data.size()):

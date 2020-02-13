@@ -87,6 +87,9 @@ public class MenuServer implements Runnable {
                         playersInLobby = playersInLobby + "~" + playerList.get(i).getAccountName();
                     }
 
+                    //set the owner
+                    newLobby.setOwner(account);
+
                     //get the lobby id in the list
                     int lobbyId = lists.lobbies.indexOf(newLobby);
                     console.append("Playerse: " + playersInLobby);
@@ -114,6 +117,37 @@ public class MenuServer implements Runnable {
                     sendPacket("2,"+lobbyNum+","+lobby.name+","+lobby.gameMode+","+playersInLobby);
                     //get lobby by id
                     //add player to lobby and send command to move to lobby
+                    break;
+                case 4: //update the lobby
+
+                    lobbyNum = Integer.parseInt(data[1]);
+
+                    //get the lobby
+                    lobby = lists.lobbies.get(lobbyNum);
+
+                    //get the player list and make a string
+                    playersInLobby = lobby.getPlayers().get(0).getAccountName();
+                    for(int i = 1; i < lobby.getPlayers().size(); i++){
+                        playersInLobby = playersInLobby + "~" + lobby.getPlayers().get(i).getAccountName();
+                    }
+                    console.append("Players: " + playersInLobby);
+                    sendPacket("4,"+lobbyNum+","+playersInLobby);
+                    break;
+                case 5: //remove player from the lobby
+                    //define the lobby
+                    lobbyNum = Integer.parseInt(data[1]);
+                    lobby = lists.lobbies.get(lobbyNum);
+
+                    //remove the player
+                    lobby.removePlayer(account);
+
+                    if(lobby.isOwner(account)){
+                        lists.lobbies.remove(lobby);
+                    }
+
+                    break;
+                case 6://update game select
+                    sendLobbyList();
                     break;
             }
         }else{

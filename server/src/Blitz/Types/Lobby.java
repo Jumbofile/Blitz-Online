@@ -22,14 +22,28 @@ public class Lobby {
 
     }
 
+    public void setOwner(Account player){
+        owner = player;
+    }
+
+    public boolean isOwner(Account player){
+        boolean isThePlayerOwner = false;
+        if(owner == player){
+            isThePlayerOwner = true;
+        }else{
+            isThePlayerOwner = false;
+        }
+
+        return isThePlayerOwner;
+    }
     public ArrayList<Account> getPlayers(){
         return players;
     }
 
     //removes a player if they exist
-    public boolean removePlayer(String name){
-        if(players.contains(name)){
-            players.remove(name);
+    public boolean removePlayer(Account player){
+        if(players.contains(player)){
+            players.remove(player);
             return true;
         }else{
             return false;

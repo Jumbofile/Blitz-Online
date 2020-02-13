@@ -40,7 +40,7 @@ func _process(delta):
 func recv_packet(data):
 	#Header is the packet id number
 		var header = int(data[0])
-		print(data)
+		#print(data)
 		match header:
 			1:#login return packet!
 				if data[1] == "true":
@@ -52,11 +52,12 @@ func recv_packet(data):
 				#change to lobby scene and populate the scene
 				get_node("Gameselect").hide()
 				get_node("Lobby").show()
-				get_node("Lobby").setLobbyList(data[4])
+				get_node("Lobby").setLobbyList(data[4], data[1])
 			3:#update list packet
-				print(data)
 				lobbies = "";
 				get_node("Gameselect").populate_list(data)
+			4:#update lobby list
+				get_node("Lobby").setLobbyList(data[2], data[1])
 
 #
 # SEND PACKETS
@@ -77,6 +78,12 @@ func send_packet(packetType, data):
 				dataPacket = (str(packetType)+","+data[0]+","+str(data[1])+","+data[2])
 			3:#join lobby.... (3, lobby id, player name)
 				dataPacket = (str(packetType)+","+str(data[0]))
+			4:#update lobby...(4, lobby id)
+				dataPacket = (str(packetType)+","+str(data[0]))
+			5:#back out of lobby...(5, lobby id)
+				dataPacket = (str(packetType)+","+str(data[0]))
+			6:#Update game select
+				dataPacket = (str(packetType))
 		connection.put_data((dataPacket + "\n").to_ascii())
 	else:
 		handle_error(1)
